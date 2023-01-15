@@ -2,7 +2,7 @@
 
 class TopicTracker:
 
-    def __init__(self, node, topic_name, topic_type, is_listener, is_publisher):
+    def __init__(self, node, topic_name, topic_type, is_listener=False, is_publisher=False):
         self.node = node
         self.topic_name = topic_name
         self.topic_type = topic_type

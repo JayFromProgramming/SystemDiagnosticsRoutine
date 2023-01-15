@@ -6,30 +6,38 @@ from primrose_interfaces import TellTails, TellTail
 
 from .TopicTracker import TopicTracker
 
+tell_tall_names = [
+    "main_battery_warning", "motor_temp", "suspension_actuators",
+    "suspension_transit", "controller_temp", "tilt_warning",
+    "check_engine", "high_battery_charge", "spot_turning",
+    "charging", "auto_trench", "battery_fault",
+    "cruise_control", "conveyor"
 
-class MinimalPublisher(Node):
+]
+
+
+class SystemDiagnosticsRoutine(Node):
 
     def __init__(self):
-        super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(String, 'topic', 10)
-        timer_period = 0.5  # seconds
-        self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.i = 0
+        super().__init__('SystemDiagnosticsRoutine')
+        self.tell_tails = TopicTracker(self, "system_diagnostics/tell_tails", TellTails,
+                                       is_publisher=True)
+        self.get_logger().info("SystemDiagnosticsRoutine initialized")
+        self.timer = self.create_timer(0.2, self.main)
 
-    def timer_callback(self):
-        msg = String()
-        msg.data = 'Hello World: %d' % self.i
-        self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
-        self.i += 1
+    def main(self):
+        msg = TellTails()
+        for name in tell_tall_names:
+            msg.tell_tails.append(TellTail(name=name, color=0, hover_text="No Data", flashing=True))
+        self.tell_tails.value = msg
 
 
 def main(args=None):
     rclpy.init(args=args)
 
-    minimal_publisher = MinimalPublisher()
+    sdr = SystemDiagnosticsRoutine()
 
-    rclpy.spin(minimal_publisher)
+    rclpy.spin(sdr)
 
-    minimal_publisher.destroy_node()
+    sdr.destroy_node()
     rclpy.shutdown()
