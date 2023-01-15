@@ -23,7 +23,7 @@ class SystemDiagnosticsRoutine(Node):
         self.tell_tails = TopicTracker(self, "system_diagnostics/tell_tails", TellTails,
                                        is_publisher=True)
         self.get_logger().info("SystemDiagnosticsRoutine initialized")
-        self.timer = self.create_timer(0.2, self.main)
+        self.timer = self.create_timer(0.5, self.main)
 
     def main(self):
         msg = TellTails()
