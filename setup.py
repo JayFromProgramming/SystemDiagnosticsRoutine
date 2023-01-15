@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'primrose_sdr = primrose_sdr.main:main',
         ],
     },
 )
