@@ -42,7 +42,7 @@ class TopicTracker:
     def value(self, msg):
         if self.is_publisher:
             self.publisher.publish(msg)
-            self.node.get_logger().info('Publishing: ' + str(msg.data))
+            self.node.get_logger().info('Publishing: ' + str(msg))
         else:
-            self.node.get_logger().info('Not a publisher, cannot publish: ' + str(msg.data))
-            raise Exception('Not a publisher, cannot publish: ' + str(msg.data))
+            self.node.get_logger().info('Not a publisher, cannot publish: ' + str(msg))
+            raise Exception('Not a publisher, cannot publish: ' + str(msg))
