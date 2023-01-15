@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'primrose_SDR'
+package_name = 'primrose_sdr'
 
 setup(
     name=package_name,
